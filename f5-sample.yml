@@ -1,0 +1,23 @@
+- name: Sample f5 Playbook
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Collect BIG-IP information
+      bigip_device_info:
+        gather_subset:
+          - system-info
+          - vlans
+          - virtual-servers
+          - software-images
+          - self-ips
+        provider:
+          server: <IP> 
+          user: admin
+          password: <Password>
+          validate_certs: False
+      delegate_to: localhost
+      register: result
+    - name: print results
+      debug:
+        msg: "{{ result.vlans }}"
